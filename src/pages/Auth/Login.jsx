@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import Api from '../../utils/Api'; // Import instance Axios
+import { db } from '../../data'; // Pastikan path ke file data.js benar
 import { toastSuccess, toastError } from '../../utils/Helpers/ToastHelpers';
 
 import Form from '../../components/Form';
@@ -14,7 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // State untuk loading
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,29 +26,30 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // 1. Cek user ke JSON Server via Axios
-      // Kita cari user dengan username & password yang cocok
-      const response = await Api.get(`/users?username=${username}&password=${password}`);
-      
-      // 2. Validasi hasil
-      if (response.data.length > 0) {
-        const user = response.data[0]; // Ambil data user pertama yang cocok
-        
-        // Simpan ke LocalStorage
+      // Simulasi jeda loading agar terasa natural
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Mencari user di file data.js lokal
+      const user = db.users.find(
+        (u) => u.username === username && u.password === password
+      );
+
+      // Validasi hasil
+      if (user) {
+        // Simpan status ke LocalStorage
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('user', JSON.stringify(user));
         
         toastSuccess('Login Berhasil! Selamat datang, ' + user.name);
         navigate(from, { replace: true });
       } else {
-        // Jika array kosong, berarti user tidak ditemukan
         setError('Username atau password salah!');
         toastError('Login Gagal! Username atau password salah.');
       }
     } catch (err) {
       console.error(err);
-      setError('Terjadi kesalahan server. Pastikan JSON Server sudah berjalan.');
-      toastError('Gagal terhubung ke server.');
+      setError('Terjadi kesalahan sistem.');
+      toastError('Gagal melakukan proses login.');
     } finally {
       setLoading(false);
     }
@@ -102,7 +103,7 @@ const Login = () => {
             type="submit" 
             variant="primary" 
             className="w-full py-3 mt-2"
-            disabled={loading} // Disable button saat loading
+            disabled={loading}
           >
             {loading ? 'Memproses...' : 'Login'}
           </Button>

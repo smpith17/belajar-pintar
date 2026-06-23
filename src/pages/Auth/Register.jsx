@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Api from '../../utils/Api';
+import { db } from '../../data'; // Import data awal
 import { toastSuccess, toastError } from '../../utils/Helpers/ToastHelpers';
 import Card from '../../components/Card';
 import Form from '../../components/Form';
@@ -14,23 +14,34 @@ const Register = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // Cek username unik (sederhana)
-      const res = await Api.get(`/users?username=${form.username}`);
-      if (res.data.length > 0) {
-        toastError("Username sudah digunakan!");
-        return;
-      }
-      
-      // Simpan ke db.json
-      await Api.post('/users', { ...form, role: "user" });
-      toastSuccess("Registrasi Berhasil! Silakan Login.");
-      navigate('/login');
-    } catch (err) {
-      toastError("Gagal registrasi");
+
+    // 1. Ambil data dari LocalStorage, jika kosong ambil dari db.users (data awal)
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || db.users;
+
+    // 2. Cek apakah username sudah ada
+    const userExists = storedUsers.find(u => u.username === form.username);
+    if (userExists) {
+      toastError("Username sudah digunakan!");
+      return;
     }
+    
+    // 3. Tambah user baru ke array
+    const newUser = { 
+      id: storedUsers.length + 1, 
+      ...form, 
+      role: "user",
+      permissions: ["view_modul"] 
+    };
+    
+    const updatedUsers = [...storedUsers, newUser];
+
+    // 4. Simpan kembali ke LocalStorage
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+    toastSuccess("Registrasi Berhasil! Silakan Login.");
+    navigate('/login');
   };
 
   return (

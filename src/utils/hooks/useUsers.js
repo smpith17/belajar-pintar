@@ -1,13 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Api from '../Api';
+import { db } from '../../data';
+
+// Helper LocalStorage
+const getStoredData = (key) => JSON.parse(localStorage.getItem(key)) || db[key] || [];
+const saveStoredData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
 // Fetch Users
 export const useFetchUsers = () => {
   return useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await Api.get('/users');
-      return res.data;
+      return getStoredData('users');
     },
   });
 };
@@ -16,7 +19,13 @@ export const useFetchUsers = () => {
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }) => Api.patch(`/users/${id}`, data),
+    mutationFn: ({ id, data }) => {
+      const currentData = getStoredData('users');
+      const updated = currentData.map(user => 
+        user.id === id ? { ...user, ...data } : user
+      );
+      saveStoredData('users', updated);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },

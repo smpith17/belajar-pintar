@@ -1,19 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Api from '../Api';
+import { db } from '../../data';
 
-// Fetch All Kelas with nested data simulation
+// Helper LocalStorage
+const getStoredData = (key) => JSON.parse(localStorage.getItem(key)) || db[key] || [];
+const saveStoredData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+
 export const useFetchKelas = () => {
   return useQuery({
     queryKey: ['kelas'],
     queryFn: async () => {
-      const resKelas = await Api.get('/kelas');
-      const kelasData = resKelas.data;
-
-      const [dosens, mks, mhs] = await Promise.all([
-        Api.get('/dosens').then(r => r.data),
-        Api.get('/mataKuliahs').then(r => r.data),
-        Api.get('/mahasiswas').then(r => r.data)
-      ]);
+      const kelasData = getStoredData('kelas');
+      const dosens = getStoredData('dosens');
+      const mks = getStoredData('mataKuliahs');
+      const mhs = getStoredData('mahasiswas');
 
       return kelasData.map(k => ({
         ...k,
@@ -25,57 +24,59 @@ export const useFetchKelas = () => {
   });
 };
 
-// Create Kelas
 export const useAddKelas = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (newData) => Api.post('/kelas', newData),
+    mutationFn: (newData) => {
+      const currentData = getStoredData('kelas');
+      saveStoredData('kelas', [...currentData, { ...newData, id: Date.now() }]);
+    },
     onSuccess: () => queryClient.invalidateQueries(['kelas']),
   });
 };
 
-// Update Kelas (Untuk Assign Mahasiswa)
 export const useUpdateKelas = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }) => Api.patch(`/kelas/${id}`, data),
+    mutationFn: ({ id, data }) => {
+      const currentData = getStoredData('kelas');
+      const updated = currentData.map(k => k.id === id ? { ...k, ...data } : k);
+      saveStoredData('kelas', updated);
+    },
+    onSuccess: () => queryClient.invalidateQueries(['kelas']),
+  });
+};
+
+export const useDeleteKelas = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => {
+      const currentData = getStoredData('kelas');
+      saveStoredData('kelas', currentData.filter(k => k.id !== id));
+    },
     onSuccess: () => queryClient.invalidateQueries(['kelas']),
   });
 };
 
 // ==================================================
-// FUNGSI YANG HILANG (DELETE)
-// ==================================================
-export const useDeleteKelas = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id) => Api.delete(`/kelas/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['kelas']);
-    },
-  });
-};
+// HELPER (Sekarang sinkron dan sangat cepat)
 // ==================================================
 
-// Helper: Hitung SKS Dosen
-export const getDosenSks = async (dosenId) => {
-  const res = await Api.get(`/kelas?dosenId=${dosenId}`);
-  const kelasList = res.data;
-  const mkRes = await Api.get('/mataKuliahs');
-  const mkList = mkRes.data;
+export const getDosenSks = (dosenId) => {
+  const kelasList = getStoredData('kelas');
+  const mkList = getStoredData('mataKuliahs');
   
-  return kelasList.reduce((total, k) => {
-    const mk = mkList.find(m => m.id === k.mataKuliahId);
-    return total + (mk?.sks || 0);
-  }, 0);
+  return kelasList
+    .filter(k => k.dosenId === dosenId)
+    .reduce((total, k) => {
+      const mk = mkList.find(m => m.id === k.mataKuliahId);
+      return total + (mk?.sks || 0);
+    }, 0);
 };
 
-// Helper: Hitung SKS Mahasiswa
-export const getMahasiswaSks = async (mhsId) => {
-  const res = await Api.get('/kelas');
-  const allKelas = res.data;
-  const mkRes = await Api.get('/mataKuliahs');
-  const mkList = mkRes.data;
+export const getMahasiswaSks = (mhsId) => {
+  const allKelas = getStoredData('kelas');
+  const mkList = getStoredData('mataKuliahs');
 
   const myClasses = allKelas.filter(k => k.mahasiswaIds?.includes(mhsId));
   
