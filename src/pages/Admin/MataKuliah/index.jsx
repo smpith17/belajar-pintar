@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
-import { confirmDelete } from '../../../Utils/Helpers/SwalHelpers';
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
+import { confirmDelete } from '../../../utils/Helpers/SwalHelpers';
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
 import Button from '../../../components/Button';
@@ -12,7 +12,7 @@ import {
   useAddMatakuliah, 
   useUpdateMatakuliah, 
   useDeleteMatakuliah 
-} from '../../../Utils/hooks/useMatakuliah';
+} from '../../../utils/hooks/useMatakuliah';
 
 const MataKuliah = () => {
   // 1. Fetching Data dengan React Query

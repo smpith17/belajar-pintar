@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
-import { confirmDelete } from '../../../Utils/Helpers/SwalHelpers';
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
+import { confirmDelete } from '../../../utils/Helpers/SwalHelpers';
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
 import Button from '../../../components/Button';
@@ -13,7 +13,7 @@ import {
   useAddDosen, 
   useUpdateDosen, 
   useDeleteDosen 
-} from '../../../Utils/hooks/useDosen';
+} from '../../../utils/hooks/useDosen';
 
 const LIMIT = 5; // Jumlah item per halaman
 
