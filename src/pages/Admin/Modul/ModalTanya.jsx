@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toastSuccess } from '../../../Utils/Helpers/ToastHelpers';
+import { toastSuccess } from '../../../utils/Helpers/ToastHelpers';
 
 const ModalTanya = ({ isOpen, onClose, moduleName }) => {
   const [question, setQuestion] = useState('');

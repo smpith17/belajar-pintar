@@ -3,7 +3,7 @@ import AccordionItem from './AccordionItem';
 import ModalTanya from './ModalTanya';
 
 // Import Custom Hooks React Query
-import { useFetchModuls, useToggleComplete } from '../../../Utils/hooks/useModul';
+import { useFetchModuls, useToggleComplete } from '../../../utils/hooks/useModul';
 
 const Modul = () => {
   // Fetch data menggunakan Hook
