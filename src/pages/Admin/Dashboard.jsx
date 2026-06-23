@@ -10,10 +10,10 @@ import {
 } from 'recharts';
 
 // Import Custom Hooks
-import { useFetchModuls } from '../../Utils/hooks/useModul';
-import { useFetchDosens } from '../../Utils/hooks/useDosen';
-import { useFetchMatakuliah } from '../../Utils/hooks/useMatakuliah';
-import { useFetchMahasiswas } from '../../Utils/hooks/useMahasiswa'; // Ganti useUsers dengan useMahasiswa
+import { useFetchModuls } from '../../utils/hooks/useModul';
+import { useFetchDosens } from '../../utils/hooks/useDosen';
+import { useFetchMatakuliah } from '../../utils/hooks/useMatakuliah';
+import { useFetchMahasiswas } from '../../utils/hooks/useMahasiswa'; // Ganti useUsers dengan useMahasiswa
 
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
