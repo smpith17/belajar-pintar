@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import Api from '../../Utils/Api'; // Import instance Axios
+import Api from '../../utils/Api'; // Import instance Axios
 import { toastSuccess, toastError } from '../../Utils/Helpers/ToastHelpers';
 
 import Form from '../../components/Form';
