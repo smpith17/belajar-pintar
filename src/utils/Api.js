@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const Api = axios.create({
-  baseURL: 'https://6a3a52cf917c7b14c74d4b5c.mockapi.io/', // URL JSON Server
+  // Mengarah ke database online db.json di GitHub kamu
+  baseURL: 'https://my-json-server.typicode.com/smpith17/belajar-pintar', 
 });
 
 export default Api;
