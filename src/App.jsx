@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Router from './Routes/Router'; // Mengambil konfigurasi route dari folder Routes
+import Router from './routes/Router'; // 👈 Cukup ganti bagian ini jadi 'routes/Router'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
