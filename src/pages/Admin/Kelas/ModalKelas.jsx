@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
-import { useAddKelas, getDosenSks } from '../../../Utils/hooks/useKelas';
-import { useFetchDosens } from '../../../Utils/hooks/useDosen';
-import { useFetchMatakuliah } from '../../../Utils/hooks/useMatakuliah';
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
+import { useAddKelas, getDosenSks } from '../../../utils/hooks/useKelas';
+import { useFetchDosens } from '../../../utils/hooks/useDosen';
+import { useFetchMatakuliah } from '../../../utils/hooks/useMatakuliah';
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
 import Button from '../../../components/Button';

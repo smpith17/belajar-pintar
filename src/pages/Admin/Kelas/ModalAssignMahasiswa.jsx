@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
-import { useUpdateKelas, useFetchKelas } from '../../../Utils/hooks/useKelas'; // Import useFetchKelas
-import { useFetchMahasiswas } from '../../../Utils/hooks/useMahasiswa';
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
+import { useUpdateKelas, useFetchKelas } from '../../../utils/hooks/useKelas'; // Import useFetchKelas
+import { useFetchMahasiswas } from '../../../utils/hooks/useMahasiswa';
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
 import Button from '../../../components/Button';
