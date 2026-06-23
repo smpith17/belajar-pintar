@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 
 // Import Custom Hooks React Query
-import { useFetchUsers, useUpdateUser } from '../../../Utils/hooks/useUsers';
+import { useFetchUsers, useUpdateUser } from '../../../utils/hooks/useUsers';
 
 // Daftar Permission yang tersedia (Master Data)
 const AVAILABLE_PERMISSIONS = [
