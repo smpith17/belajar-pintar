@@ -11,8 +11,8 @@ import ModalKelas from './ModalKelas';
 import ModalAssignMahasiswa from './ModalAssignMahasiswa';
 
 // Import Helper Toast & Swal
-import { toastSuccess, toastError } from '../../../Utils/Helpers/ToastHelpers';
-import { confirmDelete } from '../../../Utils/Helpers/SwalHelpers'; // <--- IMPORT FUNGSI INI
+import { toastSuccess, toastError } from '../../../utils/Helpers/ToastHelpers';
+import { confirmDelete } from '../../../utils/Helpers/SwalHelpers'; // <--- IMPORT FUNGSI INI
 
 const Kelas = () => {
   // Fetching Data
