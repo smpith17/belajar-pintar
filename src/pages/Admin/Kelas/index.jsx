@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 // Import Hook yang sudah diperbaiki
-import { useFetchKelas, useDeleteKelas } from '../../../Utils/hooks/useKelas';
-import { useFetchDosens } from '../../../Utils/hooks/useDosen';
-import { useFetchMatakuliah } from '../../../Utils/hooks/useMatakuliah';
+import { useFetchKelas, useDeleteKelas } from '../../../utils/hooks/useKelas';
+import { useFetchDosens } from '../../../utils/hooks/useDosen';
+import { useFetchMatakuliah } from '../../../utils/hooks/useMatakuliah';
 
 import Card from '../../../components/Card';
 import Heading from '../../../components/Heading';
