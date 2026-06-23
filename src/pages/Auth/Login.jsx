@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Api from '../../utils/Api'; // Import instance Axios
-import { toastSuccess, toastError } from '../../Utils/Helpers/ToastHelpers';
+import { toastSuccess, toastError } from '../../utils/Helpers/ToastHelpers';
 
 import Form from '../../components/Form';
 import Input from '../../components/Input';
